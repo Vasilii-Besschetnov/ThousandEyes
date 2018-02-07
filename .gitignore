@@ -1,0 +1,13 @@
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/deploy/*
+!/deploy/index.html
+
+/package-lock.json
+
+npm-debug.log*
