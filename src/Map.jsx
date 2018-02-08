@@ -45,7 +45,7 @@ let RoutePath = ({
 
 RoutePath = connect((state, { tag }) => {
     path: selectors.getPath(state, tag)
-})
+})(RoutePath);
 
 let RoutePathList = ({
     tags
@@ -102,7 +102,7 @@ RouteList = connect((state) => ({
 }))(RouteList)
 
 let RouteLoader = ({
-    routesPathLoaded
+    routeInfosLoaded
 }) => {
     const params = {
         command: "routeList",
@@ -110,32 +110,13 @@ let RouteLoader = ({
     };
     
     return (
-        <Get params={params}>
-            {(error, response, isLoading, onReload) => {
-                response = response && response.data;
-              if(error) {
-                return (<div>Something bad happened: {error.message} <button onClick={() => onReload({ params })}>Retry</button></div>)
-              }
-              else if(isLoading) {
-                return (<div>Loading...</div>)
-              }
-              else if(response !== null) {
-                routesPathLoaded(response.route);
-                return (
-                    <div>
-                        
-                        <RouteList />
-                        <button onClick={() => onReload({ params })}>Refresh</button>
-                    </div>
-                );
-              }
-              return (<div>Default message before request is made.</div>)
-            }}
-        </Get>
+<div>
+    <RouteList />
+            </div>
     )
 }
 
-RouteLoader = connect(null, {routesPathLoaded: selectors.actions.routesPathLoaded})(RouteLoader);
+RouteLoader = connect(null, {routeInfosLoaded: selectors.actions.routeInfosLoaded})(RouteLoader);
 
 
 
@@ -169,6 +150,7 @@ const Map = ({ }) => {
                                      feature={a}
                                      pathGenerator={path} />
                             )}
+                            <RoutePathList />
                         </svg>
                     </section>
                 </section>
