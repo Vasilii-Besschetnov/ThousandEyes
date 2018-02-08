@@ -1,4 +1,6 @@
-
+.map {
+    
+}
 .graticule {
   fill: none;
   stroke: #777;
@@ -10,7 +12,7 @@
   fill: #222;
 }
 
-.boundary, .artery {
+.boundary, .artery, .neighborhood, .street, .freeway {
   fill: none;
   stroke: red;
   stroke-width: 0.5px;

@@ -1,39 +1,60 @@
-import * as d3 from 'd3';
-import * as topojson from 'topojson';
-import * as styles from "$src/styles/main.scss";
-import arteries from "$src/maps/arteries.json";
-//'use strict'
 
-console.log(arteries);
+import * as topojson from 'topojson';
+import freeways from "$src/maps/freeways.json";
+import streets from "$src/maps/streets.json";
+import neighborhoods from "$src/maps/neighborhoods.json";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Map from "$src/Map.jsx";
+
+//'use strict'
 
 var width = 960,
     height = 480;
 
+ReactDOM.render(<Map />, document.getElementById('root'))
+
+
+
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
-    .on("onScroll", function(d) {
-    console.log(arguments)
-});;
+    //.call(zoomer);
 
 let scale = 1;
 console.log(scale)
-// create a projection
-var projection = d3.geoEquirectangular()
-//var projection = d3.geoMercator()
-    //.scale(scale)
-    //.translate([width / 2 + 600, height / 2 + 200]);
 
 
 // create a path that is bound to the projection
 var path = d3.geoPath()
     .projection(projection);
 
+projection.fitExtent([[20, 20], [920, 440]], arteries);
+
 svg.selectAll("."+ styles.artery)
     .data(arteries.features)
     .enter().append("path")
     .attr("class", styles.artery)
     .attr("d", path)
+
+//svg.selectAll("."+ styles.neighborhood)
+//    .data(neighborhoods.features)
+//    .enter().append("path")
+//    .attr("class", styles.neighborhood)
+//    .attr("d", path)
+
+//svg.selectAll("."+ styles.street)
+//    .data(streets.features)
+//    .enter().append("path")
+//    .attr("class", styles.street)
+//    .attr("d", path)
+
+svg.selectAll("."+ styles.freeway)
+    .data(freeways.features)
+    .enter().append("path")
+    .attr("class", styles.freeway)
+    .attr("d", path)
+
 
 window.center = function () {
     console.log(arteries);
@@ -75,12 +96,29 @@ window.center = function () {
     })
     }
 
-function zoom(addition) {
+function zoom(e, addition) {
+    console.log(arguments)
     log();
-    addition = addition || 1;
+    addition = addition || 10000;
     scale += addition;
     projection.scale(scale)
     
+    center();
+    svg.selectAll("."+ styles.artery).attr("d", path)
+    log();
+    console.log(d3.event);
+}
+
+function zoomToView() {
+    var bounds = path.bounds(arteries),
+        currScale = projection.scale(),
+        dx = bounds[1][0] - bounds[0][0],
+        dy = bounds[1][1] - bounds[0][1];
+    
+    scale = 0.9 / Math.max(dx / width, dy / height);
+    
+    log();
+    projection.scale(scale);
     
     svg.selectAll("."+ styles.artery).attr("d", path)
     log();
@@ -95,6 +133,8 @@ Object.assign(window, {
     arteries,
     zoom,
         log,
+    d3,
+    zoomToView
 });
 
 //-----------------------------
@@ -116,20 +156,3 @@ var graticule = d3.geoGraticule();
 //    .attr("class", styles.graticule)
 //    .attr("d", path);
 //
-//
-//svg.insert("path", "." + styles.graticule)
-//  .datum(arteries)
-//  .attr("class", styles.boundary)
-//  .attr("d", path);
-
-window.stop = () => {
-    console.log(path)
-    debugger
-}
-
-//setInterval(function(){
-// currentScale = (currentScale + 1) % 350;
-// projection.scale(currentScale);
-// svg.selectAll("." + styles.boundary)
-//       .attr("d", path);
-//},100);
