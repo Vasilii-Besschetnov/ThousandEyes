@@ -1,18 +1,18 @@
 .map {
-    
-}
-.graticule {
-  fill: none;
-  stroke: #777;
-  stroke-width: 0.5px;
-  stroke-opacity: 0.5;
+    display: flex;
 }
 
-.land {
-  fill: #222;
+$width: 150px;
+.leftColunm {
+    width: $width
 }
 
-.boundary, .artery, .neighborhood, .street, .freeway {
+.rightColumn {
+    flex: 1 1 calc(100% - $width);
+}
+
+
+.artery, .neighborhood, .street, .freeway {
   fill: none;
   stroke: red;
   stroke-width: 0.5px;
@@ -20,5 +20,9 @@
 
 svg {
     background: #efefef;
-  pointer-events: all;
+}
+
+
+.routes {
+    max-height: 100%
 }
