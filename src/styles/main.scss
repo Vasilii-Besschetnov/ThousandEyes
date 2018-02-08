@@ -1,0 +1,22 @@
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: 0.5px;
+  stroke-opacity: 0.5;
+}
+
+.land {
+  fill: #222;
+}
+
+.boundary, .artery {
+  fill: none;
+  stroke: red;
+  stroke-width: 0.5px;
+}
+
+svg {
+    background: #efefef;
+  pointer-events: all;
+}
