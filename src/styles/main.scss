@@ -14,6 +14,13 @@ $width: 150px;
 
 .artery, .neighborhood, .street, .freeway {
   fill: none;
+  stroke: green;
+  stroke-width: 0.5px;
+}
+
+.route {
+    
+  fill: none;
   stroke: red;
   stroke-width: 0.5px;
 }

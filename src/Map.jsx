@@ -37,15 +37,17 @@ let RoutePath = ({
     path
 }) => {
     if (!path) return null;
-    
+    let geoPath = d3Context.path;
     return (
-        "asdasd"
+        <path 
+            className={styles.route}
+            d={geoPath(path.path[0].point)} />
     );
 }
 
-RoutePath = connect((state, { tag }) => {
+RoutePath = connect((state, { tag }) =>({
     path: selectors.getPath(state, tag)
-})(RoutePath);
+}))(RoutePath)
 
 let RoutePathList = ({
     tags
@@ -65,6 +67,46 @@ RoutePathList = connect(state => ({
     tags: selectors.getTagList(state)
 }))(RoutePathList);
 
+
+let RoutePathLoader = ({
+    routesPathLoaded
+})=>{
+    const params = {
+        command: "routeConfig",
+        a: "sf-muni", // agency
+        r: "E"//route tag
+    };
+    
+    return (
+        <Get params={params}>
+            {(error, response, isLoading, onReload) => {
+                response = response && response.data;
+              if(error) {
+                return (<div>Something bad happened: {error.message} <button onClick={() => onReload({ params })}>Retry</button></div>)
+              }
+              else if(isLoading) {
+                return (<div>Loading...</div>)
+              }
+              else if(response !== null) {
+                routesPathLoaded(response.route);
+                return (
+                    <div>
+                        <RoutePathList />
+                        <RouteList onReload={onReload} />
+                    </div>
+                );
+              }
+              return (<div>Default message before request is made.</div>)
+            }}
+        </Get>
+    )
+};
+
+RoutePathLoader = connect(null, {
+    routesPathLoaded: selectors.actions.routesPathLoaded
+})(RoutePathLoader);
+
+
 let RouteItem = ({
     tag,
     title
@@ -83,16 +125,17 @@ RouteItem = connect((state, { tag }) => {
 })(RouteItem);
 
 let RouteList = ({
-    tagList
+    tagList,
+    onReload
 }) => {
     
     return (
         <div>
-            {tagList.map(r =>
+            {tagList.map(tag =>
                 <RouteItem
-                    key={r.tag} tag={r.tag}
+                    key={tag} tag={tag}
                     />)}
-            <button onClick={() => onReload({ params })}>Refresh</button>
+            <button onClick={onReload}>Refresh</button>
         </div>
     );
 };
@@ -110,20 +153,38 @@ let RouteLoader = ({
     };
     
     return (
-<div>
-    <RouteList />
-            </div>
+        <Get params={params}>
+            {(error, response, isLoading, onReload) => {
+                response = response && response.data;
+              if(error) {
+                return (<div>Something bad happened: {error.message} <button onClick={() => onReload({ params })}>Retry</button></div>)
+              }
+              else if(isLoading) {
+                return (<div>Loading...</div>)
+              }
+              else if(response !== null) {
+                routeInfosLoaded(response.route);
+                return (
+                    <div>
+                        
+                        <RouteList onReload={onReload} />
+                    </div>
+                );
+              }
+              return (<div>Default message before request is made.</div>)
+            }}
+        </Get>
     )
 }
 
-RouteLoader = connect(null, {routeInfosLoaded: selectors.actions.routeInfosLoaded})(RouteLoader);
+RouteLoader = connect(null, {routeInfosLoaded: selectors. actions.routeInfosLoaded})(RouteLoader);
 
 
 
 
 const Map = ({ }) => {
     // create a projection
-    const projection = d3Context.projection = d3.geoEquirectangular();
+    const projection = d3Context.projection = d3.geoMercator();
     projection.fitExtent([[20, 20], [920, 440]], arteries);
     
     // create a path that is bound to the projection
@@ -150,7 +211,7 @@ const Map = ({ }) => {
                                      feature={a}
                                      pathGenerator={path} />
                             )}
-                            <RoutePathList />
+                            <RoutePathLoader/>
                         </svg>
                     </section>
                 </section>

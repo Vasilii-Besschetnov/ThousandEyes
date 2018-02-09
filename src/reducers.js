@@ -41,8 +41,10 @@ const tagToRouteInfo = (state = {}, action)=> {
 const tagToRoutePath = (state = {}, action)=> {
     switch (action.type) {
         case actionTypes.routesPathLoaded:
-            return action.routes ?
-                action.routes.reduce((map, route) => {
+            let routes = action.routes;
+            routes = routes && !Array.isArray(routes) ? [routes] : routes;
+            return routes ?
+                routes.reduce((map, route) => {
                     map[route.tag] = route;
                     return map;
                 }, {}) :
