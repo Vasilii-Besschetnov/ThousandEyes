@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withD3Context } from "$components/react-d3.js";
 import Vehicle from "$components/Vehicle/Vehicle.jsx";
-import * as selectors from "$src/reducers/reducers.js";
+import { getPath, getVehicles } from "$src/reducers/reducers.js";
 import PathPart from "./PathPart.jsx";
 import { route as routeCls } from "./routePath.scss";
 
@@ -18,8 +18,7 @@ const RoutePath = ({
         content.push(
             <g key="route_group">//path group
             {
-                pathList.map((p, i) => <PathPart key={i} coords={p} />)//todo
-                  //path.path.map((p, i) => <PathPart key={i} coords={p.point.map(toCoords)} />)//todo
+                pathList.map((p, i) => <PathPart key={i} coords={p} />)
             }
             </g>
         );
@@ -40,9 +39,9 @@ const RoutePath = ({
 }
 
 export default withD3Context(connect((state, { tag, convertToCoordinates }) => {
-    const config = selectors.getPath(state, tag);
+    const config = getPath(state, tag);
     const resProps = {
-        cars: selectors.getVehicles(state, tag).map(v => ({
+        cars: getVehicles(state, tag).map(v => ({
             id: v.id, ...convertToCoordinates(v)
         })),
         pathList: null,

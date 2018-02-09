@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-console.log(PropTypes);
 const fnName = "convertToCoordinates"
 
 export const withD3Context = (Component) => {
