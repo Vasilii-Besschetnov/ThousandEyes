@@ -7,6 +7,7 @@ import axios, * as ttt from "axios";
 import { connect, Provider } from "react-redux";
 import reducers, * as selectors from "./reducers.js";
 import createMapStore from "./configureStore.js";
+import { D3ContextProvider, withD3Context } from "$src/react-d3.js";
 
 
 const Path = ({
@@ -78,10 +79,10 @@ let RoutePath = ({
     );
 }
 
-RoutePath = connect((state, { tag }) =>({
+RoutePath = withD3Context(connect((state, { tag, convertToCoordinates }) =>({
     path: selectors.getPath(state, tag),
-    cars: selectors.getVehicles(state, tag).map(v => ({id: v.id, ...toCoords(v)})),
-}))(RoutePath)
+    cars: selectors.getVehicles(state, tag).map(v => ({id: v.id, ...convertToCoordinates(v)})),
+}))(RoutePath));
 
 let RoutePathList = ({
     tags
@@ -287,28 +288,30 @@ const Map = ({ }) => {
     
     return (
         <Provider store={createMapStore()}>
-            <AxiosProvider instance={axiosInstance}>
-                <section className={styles.map}>
-                    <aside className={styles.leftColumn}>
-                        <RouteLoader />
-                    </aside>
-                    <section className={styles.rightColumn}>
-                        <svg width={960} height={480} className={styles}>
-                            <g>
-                                {arteries.features.map((a, i) =>
-                                    <Path
-                                         key={i}
-                                         feature={a}
-                                         pathGenerator={path} />
-                                )}
-                            </g>
-                            <RoutePathList />
-                            <RoutePathLoader/>
-                            <VehicleLoader />
-                        </svg>
+            <D3ContextProvider projection={projection}>
+                <AxiosProvider instance={axiosInstance}>
+                    <section className={styles.map}>
+                        <aside className={styles.leftColumn}>
+                            <RouteLoader />
+                        </aside>
+                        <section className={styles.rightColumn}>
+                            <svg width={960} height={480} className={styles}>
+                                <g>
+                                    {arteries.features.map((a, i) =>
+                                        <Path
+                                             key={i}
+                                             feature={a}
+                                             pathGenerator={path} />
+                                    )}
+                                </g>
+                                <RoutePathList />
+                                <RoutePathLoader/>
+                                <VehicleLoader />
+                            </svg>
+                        </section>
                     </section>
-                </section>
-            </AxiosProvider>
+                </AxiosProvider>
+            </D3ContextProvider>
         </Provider>
     );
 }
