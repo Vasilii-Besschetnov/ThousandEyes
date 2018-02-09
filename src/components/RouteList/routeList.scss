@@ -1,7 +1,9 @@
+@import "~$src/styles/variables.scss";
+
 .routeList {
     display: flex;
     flex-flow: column nowrap;
-    height: 400px;
+    height: $mapHeight;
 }
 
 .list {

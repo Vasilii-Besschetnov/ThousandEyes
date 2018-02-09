@@ -43,11 +43,11 @@ const Map = ({ }) => {
             <D3ContextProvider projection={projection}>
                 <AxiosProvider instance={axiosInstance}>
                     <section className={styles.map}>
-                        <aside className={styles.leftColumn}>
+                        <aside className={styles.leftColunm}>
                             <RouteLoader />
                         </aside>
                         <section className={styles.rightColumn}>
-                            <svg width={960} height={480} className={styles}>
+                            <svg className={styles.mapSvg}>
                                 <g>
                                     {arteries.features.map((a, i) =>
                                         <Path
