@@ -16,4 +16,4 @@ const routeSelection = (state = {}, action) => {
 export default routeSelection;
 
 export const isSelected = (state, tag) => !!state[tag];
-export const getSelectedRoutes = state => Object.keys;
+export const getSelectedRoutes = state => Object.keys(state);

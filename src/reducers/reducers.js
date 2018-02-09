@@ -100,3 +100,4 @@ export const getVehicles = (state, tag) => {
 };
 
 export const isRouteSelected = (state, tag) => fromRouteSelection.isSelected(state.routeSelection, tag);
+export const getSelectedRoutes = (state) => fromRouteSelection.getSelectedRoutes(state.routeSelection);

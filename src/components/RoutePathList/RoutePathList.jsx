@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import RoutePath from "$components/RoutePath/RoutePath.jsx";
-import { getTagList } from "$src/reducers/reducers.js";
+import { getSelectedRoutes } from "$src/reducers/reducers.js";
 
 const RoutePathList = ({
     tags
@@ -19,5 +19,5 @@ const RoutePathList = ({
 
 
 export default connect(state => ({
-    tags: getTagList(state)
+    tags: getSelectedRoutes(state)
 }))(RoutePathList);
