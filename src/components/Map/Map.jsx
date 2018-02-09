@@ -1,21 +1,16 @@
 import React from "react";
 import * as d3 from 'd3';
 import arteries from "$src/maps/arteries.json";
-import * as styles from "$src/styles/main.scss";
+import * as styles from "./map.scss";
 import { AxiosProvider } from "react-axios";
 import axios from "axios";
 import { Provider } from "react-redux";
-import createMapStore from "./configureStore.js";
+import createMapStore from "$src/configureStore.js";
 import { D3ContextProvider } from "$src/react-d3.js";
 import RoutePathList from "$src/RoutePathList/RoutePathList.jsx";
 import RoutePathLoader from "$src/RoutePathList/RoutePathLoader.jsx";
 import RouteLoader from "$src/RouteList/RouteLoader.jsx";
 import VehicleLoader from "$src/Vehicle/VehicleLoader.jsx";
-
-
-
-
-
 
 const Path = ({
     pathGenerator,
