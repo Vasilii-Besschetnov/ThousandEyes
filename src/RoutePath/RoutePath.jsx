@@ -1,26 +1,58 @@
+import React from "react";
+import { connect } from "react-redux";
+import { withD3Context } from "$src/react-d3.js";
+import PathPart from "$src/PathPart.jsx";
+import Vehicle from "$src/Vehicle/Vehicle.jsx";
+import * as selectors from "$src/reducers.js";
+import { route as routeCls } from "./routePath.scss";
+
 const RoutePath = ({
     tag,
-    path,
-    cars,
-    convertToCoordinates
-}) => {
-    if (!path) return null;
+    pathList,
+    color,
+    cars
+}) => {    
+    const content = [];
     
-    return (
-        <g className={styles.route} stroke={"#" + path.color}>
-            <g>//path group
+    if (pathList && pathList.length > 0) {
+        content.push(
+            <g key="route_group">//path group
             {
-                path.path.map((p, i) => <PathPart key={i} coords={p.point.map(convertToCoordinates)} />)
+                pathList.map((p, i) => <PathPart key={i} coords={p} />)//todo
+                  //path.path.map((p, i) => <PathPart key={i} coords={p.point.map(toCoords)} />)//todo
             }
             </g>
-            <g fill={"#" + path.color}> // cars group
-                {(cars || []).map(car => <Vehicle key={car.id} {...car} />)}
+        );
+    }
+    if (cars && cars.length > 0) {
+        content.push(        
+            <g key="vehicle_group" fill={color}> // cars group
+                {cars.map(car => <Vehicle key={car.id} {...car} />)}
             </g>
+        )
+    }
+    
+    return (
+        <g className={routeCls} stroke={color}>
+            {content}
         </g>
     );
 }
 
-export default connect((state, { tag }) =>({
-    path: selectors.getPath(state, tag),
-    cars: selectors.getVehicles(state, tag).map(v => ({id: v.id, ...toCoords(v)})),
-}))(RoutePath)
+export default withD3Context(connect((state, { tag, convertToCoordinates }) => {
+    const config = selectors.getPath(state, tag);
+    const resProps = {
+        cars: selectors.getVehicles(state, tag).map(v => ({
+            id: v.id, ...convertToCoordinates(v)
+        })),
+        pathList: null,
+        color: null
+    };
+    
+    if (config) {
+        resProps.color = "#" + config.color;
+        resProps.pathList = config.path ? config.path.map(p => p.point.map(convertToCoordinates)) : null;
+    }
+    
+    return resProps;
+})(RoutePath));

@@ -3,11 +3,12 @@ import * as d3 from 'd3';
 import arteries from "$src/maps/arteries.json";
 import * as styles from "$src/styles/main.scss";
 import { AxiosProvider, Get } from "react-axios";
-import axios, * as ttt from "axios";
+import axios from "axios";
 import { connect, Provider } from "react-redux";
 import reducers, * as selectors from "./reducers.js";
 import createMapStore from "./configureStore.js";
 import { D3ContextProvider, withD3Context } from "$src/react-d3.js";
+import RoutePath from "$src/RoutePath/RoutePath.jsx";
 
 
 const Path = ({
@@ -35,54 +36,8 @@ const toCoords = ({ lon, lat}) => {
     };
 }
 
-const PathPart = ({
-    coords
-}) => {
-    const coordAsStr = coords.map(c => {        
-        return c.x + "," + c.y;
-    });
-    return (
-        <g>
-            <path d={"M" + coordAsStr.join("L")} />
-        </g>
-    )
-}
 
 
-const Vehicle = ({
-    x,
-    y
-}) => {
-    return (
-        <circle className={styles.vehicle} cx={x} cy={y} />
-    )
-}
-
-let RoutePath = ({
-    tag,
-    path,
-    cars
-}) => {
-    if (!path) return null;
-    
-    return (
-        <g className={styles.route} stroke={"#" + path.color}>
-            <g>//path group
-            {
-                path.path.map((p, i) => <PathPart key={i} coords={p.point.map(toCoords)} />)
-            }
-            </g>
-            <g fill={"#" + path.color}> // cars group
-                {(cars || []).map(car => <Vehicle key={car.id} {...car} />)}
-            </g>
-        </g>
-    );
-}
-
-RoutePath = withD3Context(connect((state, { tag, convertToCoordinates }) =>({
-    path: selectors.getPath(state, tag),
-    cars: selectors.getVehicles(state, tag).map(v => ({id: v.id, ...convertToCoordinates(v)})),
-}))(RoutePath));
 
 let RoutePathList = ({
     tags
