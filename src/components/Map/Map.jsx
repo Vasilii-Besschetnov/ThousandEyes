@@ -6,7 +6,7 @@ import { AxiosProvider } from "react-axios";
 import axios from "axios";
 import { Provider } from "react-redux";
 import createMapStore from "$src/configureStore.js";
-import { D3ContextProvider } from "$src/react-d3.js";
+import { D3ContextProvider } from "$src/components/react-d3.js";
 import RoutePathList from "$src/RoutePathList/RoutePathList.jsx";
 import RoutePathLoader from "$src/RoutePathList/RoutePathLoader.jsx";
 import RouteLoader from "$src/RouteList/RouteLoader.jsx";
