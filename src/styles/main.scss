@@ -21,8 +21,11 @@ $width: 150px;
 .route {
     
   fill: none;
-  stroke: red;
   stroke-width: 0.5px;
+}
+
+.vehicle {
+    r: 3px; 
 }
 
 svg {

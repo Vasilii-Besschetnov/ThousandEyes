@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 
 const actionTypes = {
     routeInfosLoaded: "ROUTES_INFO_LOADED",
-    routesPathLoaded: "ROUTES_PATH_LOADED"
+    routesPathLoaded: "ROUTES_PATH_LOADED",
+    vehiclesLoaded: "VEHICLES_LOADED",
 };
 export const actions = {
     routeInfosLoaded: routes => ({
@@ -12,6 +13,10 @@ export const actions = {
     routesPathLoaded: routes => ({
         type: actionTypes.routesPathLoaded,
         routes
+    }),
+    vehiclesLoaded: vehicles => ({
+        type: actionTypes.vehiclesLoaded,
+        vehicles        
     })
 };
 
@@ -54,17 +59,51 @@ const tagToRoutePath = (state = {}, action)=> {
     }
 }
 
-
-let state = {
-    tags: [],
-    tagToRoutePath: {},
-    tagToRouteInfo: {}
+const vehicles = (state = {}, action) => {
+    switch (action.type) {
+        case actionTypes.vehiclesLoaded:
+            const newState = {
+                ...state
+            };
+            
+            action.vehicles.forEach(v => {
+                newState[v.id] = v
+            });
+                
+            return newState;
+        default:
+            return state;
+    }
 }
+
+const updateVehicle = (state = {}, vehicle) => {
+    if (!vehicle) return state;
+    return {
+        ...state,
+        [vehicle.id]: true
+    };
+}
+
+
+const tagToVehicles = (state = {}, action) => {
+    switch (action.type) {
+        case actionTypes.vehiclesLoaded:
+            const newState = {...state};
+            action.vehicles.forEach(v => newState[v.routeTag] = updateVehicle(newState[v.routeTag], v));
+            
+            return newState; 
+        default:
+            return state;
+    }
+}
+
 
 export default combineReducers({
     tags,
     tagToRouteInfo,
-    tagToRoutePath
+    tagToRoutePath,
+    tagToVehicles,
+    vehicles,
 });
 
 export const getTagList = state => state.tags
@@ -72,3 +111,7 @@ export const getTagList = state => state.tags
 export const getPath = (state, tag) => state.tagToRoutePath[tag];
 
 export const getRouteInfo = (state, tag) => state.tagToRouteInfo[tag];
+export const getVehicles = (state, tag) => {
+    const tagInfo = state.tagToVehicles[tag];
+    return tagInfo ? Object.keys(tagInfo).map(vId => state.vehicles[vId]) : []
+};
