@@ -8,7 +8,10 @@ import { connect, Provider } from "react-redux";
 import reducers, * as selectors from "./reducers.js";
 import createMapStore from "./configureStore.js";
 import { D3ContextProvider, withD3Context } from "$src/react-d3.js";
-import RoutePath from "$src/RoutePath/RoutePath.jsx";
+import RoutePathList from "$src/RoutePathList.jsx";
+import RouteItem from "$src/RouteItem.jsx";
+
+
 
 
 const Path = ({
@@ -28,37 +31,7 @@ let d3Context = {
     path: null
 }
 
-const toCoords = ({ lon, lat}) => {
-    const coords = d3Context.projection([lon, lat]);
-    return {
-        x: coords[0],
-        y: coords[1]
-    };
-}
 
-
-
-
-let RoutePathList = ({
-    tags
-}) => {
-    return (
-        <React.Fragment>
-        {tags.map(t =>
-            <RoutePath
-                key={t}
-                tag={t}
-                />)}
-            </React.Fragment>
-        
-    )
-};
-
-
-
-RoutePathList = connect(state => ({
-    tags: selectors.getTagList(state)
-}))(RoutePathList);
 
 
 let RoutePathLoader = ({
@@ -152,22 +125,6 @@ VehicleLoader = connect(null, {
 })(VehicleLoader);
 
 
-let RouteItem = ({
-    tag,
-    title
-}) => {
-    return (
-        <div>
-            {title} ({tag})
-        </div>
-    );
-}
-
-RouteItem = connect((state, { tag }) => {
-    const tagInfo = selectors.getRouteInfo(state, tag);
-    
-    return tagInfo;
-})(RouteItem);
 
 let RouteList = ({
     tagList,
