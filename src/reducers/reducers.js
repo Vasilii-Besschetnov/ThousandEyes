@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import * as actionTypes from "$src/actions/actionTypes.js";
+import routeSelection, * as fromRouteSelection from "$src/reducers/routeSelection.js";
 
 const tags = (state = [], action)=> {
     switch (action.type) {
@@ -85,6 +86,7 @@ export default combineReducers({
     tagToRoutePath,
     tagToVehicles,
     vehicles,
+    routeSelection,
 });
 
 export const getTagList = state => state.tags
@@ -96,3 +98,5 @@ export const getVehicles = (state, tag) => {
     const tagInfo = state.tagToVehicles[tag];
     return tagInfo ? Object.keys(tagInfo).map(vId => state.vehicles[vId]) : []
 };
+
+export const isRouteSelected = (state, tag) => fromRouteSelection.isSelected(state.routeSelection, tag);

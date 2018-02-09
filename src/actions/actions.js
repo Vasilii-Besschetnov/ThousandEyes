@@ -14,3 +14,8 @@ export const vehiclesLoaded = vehicles => ({
     type: actionTypes.vehiclesLoaded,
     vehicles        
 });
+
+export const routeSelectionChanged = tag => ({
+    type: actionTypes.routeSelectionChanged,
+    tag        
+});

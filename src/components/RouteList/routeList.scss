@@ -9,8 +9,19 @@
 .list {
     flex: 1;
     overflow-y: scroll;
+    padding: 5px;
 }
 
 .footer {
     
+}
+
+.selected {
+    background: antiquewhite;
+}
+
+.routeItem {
+    $padding: 5px;
+    padding-top: $padding;
+    padding-bottom: $padding;
 }
