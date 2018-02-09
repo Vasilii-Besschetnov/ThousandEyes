@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { routeInfosLoaded } from "$src/actions/actions.js";
 import { Get } from "react-axios";
-import RouteList from "$src/RouteList/RouteList.jsx";
+import RouteList from "$components/RouteList/RouteList.jsx";
 
 const RouteLoader = ({
     routeInfosLoaded

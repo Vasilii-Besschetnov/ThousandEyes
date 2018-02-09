@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { withD3Context } from "$src/components/react-d3.js";
-import Vehicle from "$src/Vehicle/Vehicle.jsx";
+import { withD3Context } from "$components/react-d3.js";
+import Vehicle from "$components/Vehicle/Vehicle.jsx";
 import * as selectors from "$src/reducers/reducers.js";
 import PathPart from "./PathPart.jsx";
 import { route as routeCls } from "./routePath.scss";
