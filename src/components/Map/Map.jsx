@@ -34,8 +34,7 @@ const Map = ({ }) => {
     
     const axiosInstance = axios.create({
         baseURL: 'http://webservices.nextbus.com/service/publicJSONFeed',
-        timeout: 2000,
-        headers: { "Access-Control-Allow-Origin": '*'}
+        timeout: 5000
     });
     
     return (
@@ -58,7 +57,7 @@ const Map = ({ }) => {
                                 </g>
                                 <RoutePathList />
                                 <RoutePathLoader/>
-                                <VehicleLoader />
+                                <VehicleLoader timeout={1000} />
                             </svg>
                         </section>
                     </section>

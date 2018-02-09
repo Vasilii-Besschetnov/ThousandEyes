@@ -1,26 +1,46 @@
 import React from "react";
 import { connect } from "react-redux";
 import { vehiclesLoaded } from "$src/actions/actions.js";
-import { Get } from "react-axios";
+import { withAxios } from "react-axios";
 
 class VehicleLoader extends React.Component {
     constructor(props) {
         super(props);
-        
-        this.state = {
-            lastTime: null
-        };
+        this.loadData = this.loadData.bind(this);
     }
     
-    updateData(lastTime) {
+    componentDidMount() {
+        this.loadData();
+    }
+    
+    loadData () {        
         if (this.timeoutId) return;
-        this.timeoutId = setTimeout(() => {
-            this.setState({
-                lastTime
-            }, ()=> {
+        const params = {
+            command: "vehicleLocations",
+            a: "sf-muni", // agency  
+            t: this._lastTime || ''
+            //r: "E"//route tag
+        };
+        const {
+            axios,
+            vehiclesLoaded,
+            timeout = 15000
+        } = this.props;
+        axios.get("", { params }).then((response) => {
+            const data = response && response.data;
+            if (data) {
                 this.timeoutId = null;
-            });
-        }, 15000)
+                this._lastTime = data.lastTime.time
+                if(data.vehicle) {
+                    vehiclesLoaded(Array.from(data.vehicle));
+                }
+                
+                setTimeout(this.loadData, timeout)
+            }
+        }, (err) => {
+            this.timeoutId = null;
+            this.loadData();
+        })
     }
     
     componentWillUnmount() {
@@ -31,34 +51,10 @@ class VehicleLoader extends React.Component {
     }
     
     render() {
-        const {
-            vehiclesLoaded
-        } = this.props;
-        const params = {
-            command: "vehicleLocations",
-            a: "sf-muni", // agency  
-            t: this.state.lastTime
-            //r: "E"//route tag
-        };
-
-        return (
-            <Get params={params}>
-                {(error, response, isLoading, onReload) => {
-                    response = response && response.data;
-                  if(error) {
-                      onReload();
-                  }
-                  else if(response !== null) {
-                    vehiclesLoaded(response.vehicle);
-                    this.updateData(response.lastTime.time);
-                  }
-                  return ("")
-                }}
-            </Get>
-        )
+        return ("");
     }    
 }
 
-export default connect(null, {
+export default withAxios(connect(null, {
     vehiclesLoaded
-})(VehicleLoader);
+})(VehicleLoader));
