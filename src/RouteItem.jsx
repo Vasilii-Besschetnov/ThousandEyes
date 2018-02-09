@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getRouteInfo } from "$src/reducers.js";
+import { getRouteInfo } from "$src/reducers/reducers.js";
 
 const RouteItem = ({
     tag,

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import RoutePath from "$src/RoutePath/RoutePath.jsx";
-import * as selectors from "$src/reducers.js";
+import * as selectors from "$src/reducers/reducers.js";
 
 const RoutePathList = ({
     tags

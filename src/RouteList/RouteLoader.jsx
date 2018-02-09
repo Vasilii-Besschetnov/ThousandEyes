@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import reducers, * as selectors from "$src/reducers.js";
+import { routeInfosLoaded } from "$src/actions/actions.js";
 import { Get } from "react-axios";
 import RouteList from "$src/RouteList/RouteList.jsx";
 
@@ -38,6 +38,6 @@ const RouteLoader = ({
 }
 
 export default connect(null, {
-    routeInfosLoaded: selectors. actions.routeInfosLoaded
+    routeInfosLoaded
 })(RouteLoader);
 

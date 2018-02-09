@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import reducers, * as selectors from "$src/reducers.js";
+import { routesPathLoaded } from "$src/actions/actions.js";
 import { Get } from "react-axios";
+
+
 
 const RoutePathLoader = ({
     routesPathLoaded
@@ -30,5 +32,5 @@ const RoutePathLoader = ({
 };
 
 export default connect(null, {
-    routesPathLoaded: selectors.actions.routesPathLoaded
+    routesPathLoaded
 })(RoutePathLoader);

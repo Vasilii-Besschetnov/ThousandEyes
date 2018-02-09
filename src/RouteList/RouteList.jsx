@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getTagList } from "$src/reducers.js";
+import { getTagList } from "$src/reducers/reducers.js";
 import RouteItem from "$src/RouteItem.jsx";
 
 const RouteList = ({

@@ -1,24 +1,5 @@
 import { combineReducers } from 'redux';
-
-const actionTypes = {
-    routeInfosLoaded: "ROUTES_INFO_LOADED",
-    routesPathLoaded: "ROUTES_PATH_LOADED",
-    vehiclesLoaded: "VEHICLES_LOADED",
-};
-export const actions = {
-    routeInfosLoaded: routes => ({
-        type: actionTypes.routeInfosLoaded,
-        routes
-    }),
-    routesPathLoaded: routes => ({
-        type: actionTypes.routesPathLoaded,
-        routes
-    }),
-    vehiclesLoaded: vehicles => ({
-        type: actionTypes.vehiclesLoaded,
-        vehicles        
-    })
-};
+import * as actionTypes from "$src/actions/actionTypes.js";
 
 const tags = (state = [], action)=> {
     switch (action.type) {

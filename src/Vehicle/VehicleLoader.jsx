@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import reducers, * as selectors from "$src/reducers.js";
+import { vehiclesLoaded } from "$src/actions/actions.js";
 import { Get } from "react-axios";
 
 class VehicleLoader extends React.Component {
@@ -60,5 +60,5 @@ class VehicleLoader extends React.Component {
 }
 
 export default connect(null, {
-    vehiclesLoaded: selectors.actions.vehiclesLoaded
+    vehiclesLoaded
 })(VehicleLoader);
