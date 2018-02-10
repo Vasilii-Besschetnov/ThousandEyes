@@ -56,7 +56,6 @@ const Map = ({ }) => {
                                     )}
                                 </g>
                                 <RoutePathList />
-                                <RoutePathLoader/>
                                 <VehicleLoader />
                             </svg>
                         </section>
