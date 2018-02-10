@@ -1,5 +1,5 @@
 import React from "react";
-import * as d3 from 'd3';
+import { geoMercator, geoPath } from 'd3';
 import { AxiosProvider } from "react-axios";
 import axios from "axios";
 import { Provider } from "react-redux";
@@ -25,11 +25,11 @@ const Path = ({
 
 const Map = ({ }) => {
     // create a projection
-    const projection = d3.geoMercator();
+    const projection = geoMercator();
     projection.fitExtent([[20, 20], [920, 440]], arteries);
     
     // create a path that is bound to the projection
-    const path = d3.geoPath().projection(projection);
+    const path = geoPath().projection(projection);
     
     const axiosInstance = axios.create({
         baseURL: 'http://webservices.nextbus.com/service/publicJSONFeed',
