@@ -8,7 +8,6 @@ import arteries from "$src/maps/arteries.json";
 import createMapStore from "$src/configureStore.js";
 import { D3ContextProvider } from "$components/react-d3.js";
 import RoutePathList from "$components/RoutePathList/RoutePathList.jsx";
-import RoutePathLoader from "$components/RoutePathList/RoutePathLoader.jsx";
 import RouteList from "$components/RouteList/RouteList.jsx";
 import VehicleLoader from "$components/Vehicle/VehicleLoader.jsx";
 
