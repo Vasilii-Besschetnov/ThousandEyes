@@ -9,7 +9,7 @@ import createMapStore from "$src/configureStore.js";
 import { D3ContextProvider } from "$components/react-d3.js";
 import RoutePathList from "$components/RoutePathList/RoutePathList.jsx";
 import RoutePathLoader from "$components/RoutePathList/RoutePathLoader.jsx";
-import RouteLoader from "$components/RouteList/RouteLoader.jsx";
+import RouteList from "$components/RouteList/RouteList.jsx";
 import VehicleLoader from "$components/Vehicle/VehicleLoader.jsx";
 
 const Path = ({
@@ -43,7 +43,7 @@ const Map = ({ }) => {
                 <AxiosProvider instance={axiosInstance}>
                     <section className={styles.map}>
                         <aside className={styles.leftColunm}>
-                            <RouteLoader />
+                            <RouteList />
                         </aside>
                         <section className={styles.rightColumn}>
                             <svg className={styles.mapSvg}>
@@ -57,7 +57,7 @@ const Map = ({ }) => {
                                 </g>
                                 <RoutePathList />
                                 <RoutePathLoader/>
-                                <VehicleLoader timeout={1000} />
+                                <VehicleLoader />
                             </svg>
                         </section>
                     </section>

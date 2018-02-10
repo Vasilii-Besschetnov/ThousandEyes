@@ -31,7 +31,7 @@ class VehicleLoader extends React.Component {
             if (data) {
                 this.timeoutId = null;
                 this._lastTime = data.lastTime.time
-                if(data.vehicle) {
+                if (data.vehicle) {
                     vehiclesLoaded(Array.from(data.vehicle));
                 }
                 
@@ -46,7 +46,7 @@ class VehicleLoader extends React.Component {
     componentWillUnmount() {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
-            this.this.timeoutId = null;
+            this.timeoutId = null;
         }
     }
     
