@@ -5,6 +5,14 @@ import { getSelectedRoutes } from "$src/reducers/reducers.js";
 import { routesPathLoaded } from "$src/actions/actions.js";
 import { withAxios } from "react-axios";
 
+const stateToProps = state => ({
+    tags: getSelectedRoutes(state)
+});
+
+const dispatchToProps = {
+    routesPathLoaded
+};
+
 
 class RoutePathList extends React.Component {
     
@@ -66,8 +74,4 @@ class RoutePathList extends React.Component {
 };
 
 
-export default withAxios(connect(state => ({
-    tags: getSelectedRoutes(state)
-}), {
-    routesPathLoaded
-})(RoutePathList));
+export default withAxios(connect(stateToProps, dispatchToProps)(RoutePathList));

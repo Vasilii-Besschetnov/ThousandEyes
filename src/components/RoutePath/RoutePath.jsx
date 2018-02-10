@@ -6,6 +6,24 @@ import { getPath, getVehicles } from "$src/reducers/reducers.js";
 import PathPart from "./PathPart.jsx";
 import { route as routeCls } from "./routePath.scss";
 
+const stateToProps = (state, { tag, convertToCoordinates }) => {
+    const config = getPath(state, tag);
+    const resProps = {
+        cars: getVehicles(state, tag).map(v => ({
+            id: v.id, ...convertToCoordinates(v)
+        })),
+        pathList: null,
+        color: null
+    };
+    
+    if (config) {
+        resProps.color = "#" + config.color;
+        resProps.pathList = config.path ? config.path.map(p => p.point.map(convertToCoordinates)) : null;
+    }
+    
+    return resProps;
+};
+
 const RoutePath = ({
     tag,
     pathList,
@@ -38,20 +56,4 @@ const RoutePath = ({
     );
 }
 
-export default withD3Context(connect((state, { tag, convertToCoordinates }) => {
-    const config = getPath(state, tag);
-    const resProps = {
-        cars: getVehicles(state, tag).map(v => ({
-            id: v.id, ...convertToCoordinates(v)
-        })),
-        pathList: null,
-        color: null
-    };
-    
-    if (config) {
-        resProps.color = "#" + config.color;
-        resProps.pathList = config.path ? config.path.map(p => p.point.map(convertToCoordinates)) : null;
-    }
-    
-    return resProps;
-})(RoutePath));
+export default withD3Context(connect(stateToProps)(RoutePath));

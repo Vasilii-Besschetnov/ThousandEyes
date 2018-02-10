@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { routesPathLoaded } from "$src/actions/actions.js";
 import { Get } from "react-axios";
 
-
+const dispatchToProps = {
+    routesPathLoaded
+};
 
 const RoutePathLoader = ({
     routesPathLoaded
@@ -31,6 +33,4 @@ const RoutePathLoader = ({
     )
 };
 
-export default connect(null, {
-    routesPathLoaded
-})(RoutePathLoader);
+export default connect(null, dispatchToProps)(RoutePathLoader);

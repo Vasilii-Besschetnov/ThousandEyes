@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { vehiclesLoaded } from "$src/actions/actions.js";
 import { withAxios } from "react-axios";
 
+const dispatchToProps = {
+    vehiclesLoaded
+};
+
 class VehicleLoader extends React.Component {
     constructor(props) {
         super(props);
@@ -55,6 +59,4 @@ class VehicleLoader extends React.Component {
     }    
 }
 
-export default withAxios(connect(null, {
-    vehiclesLoaded
-})(VehicleLoader));
+export default withAxios(connect(null, dispatchToProps)(VehicleLoader));

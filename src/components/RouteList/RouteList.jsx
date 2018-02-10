@@ -6,7 +6,13 @@ import * as styles from "./routeList.scss";
 import { routeInfosLoaded } from "$src/actions/actions.js";
 import { withAxios } from "react-axios";
 
+const stateToProps = (state) => ({
+    tagList: getTagList(state)
+});
 
+const dispatchToProps = {
+    routeInfosLoaded
+};
 
 class RouteList extends React.Component {
     
@@ -69,8 +75,4 @@ class RouteList extends React.Component {
     }
 }
 
-export default withAxios(connect((state) => ({
-    tagList: getTagList(state)
-}), {
-    routeInfosLoaded
-})(RouteList))
+export default withAxios(connect(stateToProps, dispatchToProps)(RouteList))
